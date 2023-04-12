@@ -1,9 +1,11 @@
 import { useRef } from 'react';
 
+import './index.css';
 import { useStore } from '../../model';
+import * as Icon from '../icon';
 
 function MessageInput() {
-    const inputRef = useRef<HTMLInputElement>(null);
+    const inputRef = useRef<HTMLTextAreaElement>(null);
     const { messages } = useStore();
 
     const submit = () => {
@@ -11,9 +13,16 @@ function MessageInput() {
     }
 
     return (
-        <div>
-            <input ref={ inputRef } />
-            <button onClick={ submit }>Отправить</button>
+        <div className={ 'message-input' }>
+            <label className={ 'message-input__container' }>
+                <textarea className={ 'message-input__input' }
+                          ref={ inputRef }
+                          placeholder={ 'Введите сообщение...' }
+                          rows={ 1 } />
+            </label>
+            <div className={ 'message-input__button' } onClick={ submit }>
+                <Icon.ArrowSend width={ 32 } height={ 32 } />
+            </div>
         </div>
     )
 }

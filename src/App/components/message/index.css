@@ -11,6 +11,9 @@
 
     border-radius: 12px;
     background-color: var(--primary-color);
+
+    word-wrap: break-word;
+    word-break: break-all;
 }
 
 .messages-container__message-avatar {
@@ -19,6 +22,7 @@
     width: 24px;
     height: 24px;
     padding: .3em;
+    box-sizing: content-box;
 
     border: 1px solid var(--primary-color);
     border-radius: 120px;
