@@ -1,9 +1,20 @@
-import { useAppContext } from '../../model/context';
+import { observer } from 'mobx-react-lite';
+
+import { useStore } from '../../model/context';
 
 function Messages() {
-    const {} = useAppContext;
 
-    return <div></div>
+    return (
+        <div>
+            { renderMessages() }
+        </div>
+    )
 }
 
-export default Messages;
+function renderMessages() {
+    const { messages } = useStore();
+
+    return messages.messages.map((msg) => <div key={ msg.id }>{ msg.body }</div>)
+}
+
+export default observer(Messages);
