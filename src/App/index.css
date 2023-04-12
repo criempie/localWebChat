@@ -1,0 +1,12 @@
+html, body {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+#app {
+    --primary-color: #024059;
+    --secondary-color: #8C503A;
+
+    --primary-font-color: #D9CCC1;
+}

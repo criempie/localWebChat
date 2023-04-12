@@ -1,0 +1,29 @@
+.messages-container__message {
+    display: flex;
+    align-items: center;
+    gap: 1em;
+}
+
+.messages-container__message-body {
+    display: inline-block;
+    padding: .3em .7em;
+    white-space: pre-line;
+
+    border-radius: 12px;
+    background-color: var(--primary-color);
+}
+
+.messages-container__message-avatar {
+    display: inline-block;
+    align-self: flex-start;
+    width: 24px;
+    height: 24px;
+    padding: .3em;
+
+    border: 1px solid var(--primary-color);
+    border-radius: 120px;
+}
+
+.messages-container__message-avatar > svg > path {
+    fill: var(--primary-font-color);
+}
