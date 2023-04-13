@@ -9,7 +9,7 @@ function MessageInput() {
     const { messages } = useStore();
 
     const submit = () => {
-        messages.addMessage({ body: inputRef.current?.value || '' });
+        // messages.addMessage({ body: inputRef.current?.value || '' });
     }
 
     return (

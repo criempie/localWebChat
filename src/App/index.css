@@ -2,15 +2,34 @@ html, body {
     padding: 0;
     margin: 0;
     box-sizing: border-box;
+
+    width: 100%;
+    height: 100%;
 }
 
 * {
     box-sizing: border-box;
 }
 
+#root {
+    width: 100%;
+    height: 100%;
+}
+
 #app {
+    width: 100%;
+    height: 100%;
+
     --primary-color: #024059;
     --secondary-color: #8C503A;
 
     --primary-font-color: #D9CCC1;
+}
+
+.home-page {
+    height: 100%;
+    display: grid;
+    grid-template-areas: "rooms chat";
+
+    grid-template-columns: auto 1fr;
 }

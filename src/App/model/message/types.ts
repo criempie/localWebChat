@@ -1,4 +1,7 @@
+import { IRoom } from '../room';
+
 export interface IMessage {
-    id?: string;
+    id?: number;
     body: string;
+    roomId: IRoom['id'];
 }

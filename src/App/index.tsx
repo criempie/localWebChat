@@ -1,12 +1,14 @@
 import './index.css';
-import MessageInput from './components/message-input';
-import Messages from './components/messages';
+import Rooms from './components/rooms';
 
 function App() {
     return (
-        <div id={'app'}>
-            <Messages />
-            <MessageInput />
+        <div id={ 'app' }>
+            <div className={ 'home-page' }>
+                <Rooms />
+            </div>
+            {/*<Messages />*/ }
+            {/*<MessageInput />*/ }
         </div>
     )
 }
