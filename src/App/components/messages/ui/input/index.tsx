@@ -1,8 +1,8 @@
 import { useRef } from 'react';
 
 import './index.css';
-import { useStore } from '../../model';
-import * as Icon from '../icon';
+import { useStore } from '../../../../model';
+import * as Icon from '../../../icon';
 
 function MessageInput() {
     const inputRef = useRef<HTMLTextAreaElement>(null);

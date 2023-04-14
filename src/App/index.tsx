@@ -1,4 +1,5 @@
 import './index.css';
+import Messages from './components/messages';
 import Rooms from './components/rooms';
 
 function App() {
@@ -6,9 +7,8 @@ function App() {
         <div id={ 'app' }>
             <div className={ 'home-page' }>
                 <Rooms />
+                <Messages />
             </div>
-            {/*<Messages />*/ }
-            {/*<MessageInput />*/ }
         </div>
     )
 }

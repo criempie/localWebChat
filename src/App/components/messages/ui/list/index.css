@@ -1,0 +1,10 @@
+.chat__messages-list {
+    display: flex;
+    flex-direction: column;
+    gap: .3em;
+
+    background-color: var(--secondary-color);
+    color: var(--primary-font-color);
+
+    padding: 1em;
+}
