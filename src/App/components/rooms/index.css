@@ -23,4 +23,16 @@
     align-self: flex-end;
 }
 
-.select-room__room {}
+.select-room__room {
+    padding: .3em;
+    border: 1px solid var(--secondary-color)
+}
+
+.select-room__room:hover {
+    background-color: var(--secondary-color);
+    cursor: pointer;
+}
+
+.select-room__room_active {
+    background-color: var(--secondary-color);
+}
