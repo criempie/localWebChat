@@ -39,6 +39,15 @@ class RoomsStore {
         })
     }
 
+    public changeName(name: string) {
+        this._setUserName(name);
+    }
+
+    @action
+    private _setUserName(name: string) {
+        this.userName = name;
+    }
+
     @action
     private _setRooms(rooms: Required<IRoom>[]) {
         this.rooms = rooms;
