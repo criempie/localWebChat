@@ -1,0 +1,31 @@
+.login-page {
+    height: 100%;
+
+    background-color: var(--secondary-color);
+    color: var(--primary-font-color)
+}
+
+.login-page__container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.login-page__box {
+    background-color: var(--primary-color);
+    border-radius: 12px;
+}
+
+.login-page__title {
+    padding-bottom: 1em;
+}
+
+.login-page__description {
+    display: flex;
+    padding-top: 1em;
+    justify-content: space-between;
+}
+
+.login-page__error {
+    padding-right: 1em;
+}

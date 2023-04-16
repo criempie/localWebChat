@@ -9,7 +9,7 @@ function Step_1(props: Props) {
     const { rooms } = useStore();
 
     const clearName = () => {
-        rooms.changeName('');
+        rooms.setName('');
     }
 
     return (

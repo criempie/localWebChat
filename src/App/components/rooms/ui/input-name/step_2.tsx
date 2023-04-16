@@ -13,7 +13,7 @@ function Step_2(props: Props) {
 
     const saveName = () => {
         if (inputRef.current?.value) {
-            rooms.changeName(inputRef.current?.value);
+            rooms.setName(inputRef.current?.value);
         }
     }
 

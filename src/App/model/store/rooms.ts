@@ -2,6 +2,7 @@ import { liveQuery, Subscription } from 'dexie';
 import { action, makeObservable, observable } from 'mobx';
 
 import { messagesDB } from '../database';
+import { GUIError } from '../error';
 import { IRoom } from '../room';
 import RootStore from './index';
 
@@ -39,7 +40,11 @@ class RoomsStore {
         })
     }
 
-    public changeName(name: string) {
+    public setName(name?: string) {
+        const minLength = 3;
+
+        if (!name || name.length < minLength) throw new GUIError(`Длина имени должна быть больше ${ minLength }`);
+
         this._setUserName(name);
     }
 
