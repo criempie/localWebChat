@@ -1,6 +1,5 @@
 .chat {
     display: grid;
-    grid-area: chat;
     grid-template-rows: 1fr auto;
 
     height: 100%;

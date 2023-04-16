@@ -1,18 +1,23 @@
+import { observer } from 'mobx-react-lite';
+
 import './index.css';
+import HomePage from './components/home-page';
 import LoginPage from './components/login-page';
-import Messages from './components/messages';
-import Rooms from './components/rooms';
+import { useStore } from './model';
 
 function App() {
     return (
         <div id={ 'app' }>
-            <LoginPage />
-            {/*<div className={ 'home-page' }>*/ }
-            {/*    <Rooms />*/ }
-            {/*    <Messages />*/ }
-            {/*</div>*/ }
+            { render() }
         </div>
     )
 }
 
-export default App;
+function render() {
+    const { rooms } = useStore();
+
+    if (!rooms.userName) return <LoginPage />
+    else return <HomePage />
+}
+
+export default observer(App);

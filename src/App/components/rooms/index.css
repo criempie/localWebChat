@@ -1,6 +1,4 @@
 .select-room {
-    grid-area: rooms;
-
     background-color: var(--primary-color);
     color: var(--primary-font-color);
 
