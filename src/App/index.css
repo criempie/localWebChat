@@ -66,3 +66,18 @@ html, body {
 .error {
     color: var(--error-font-color);
 }
+
+.username {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.username__name {
+    font-weight: bold;
+    font-size: 1.2em;
+}
+
+.username__button {
+    margin-left: auto;
+}

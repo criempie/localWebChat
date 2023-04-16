@@ -1,5 +1,7 @@
 import { observer } from 'mobx-react-lite';
 import { useMemo } from 'react';
+
+import './index.css';
 import { useStore } from '../../../../model';
 import { IRoom } from '../../../../model/room';
 
@@ -9,10 +11,10 @@ function Room(props: Props) {
     const { rooms } = useStore();
 
     const className = useMemo(() => {
-        let temp = 'select-room__room';
-        if (props.id === rooms.currentRoom?.id) temp += ' select-room__room_active';
+        let defaultClass = 'rooms__room';
+        if (props.id === rooms.currentRoom?.id) defaultClass += ' rooms__room_active';
 
-        return temp;
+        return defaultClass;
 
     }, [ props.id, rooms.currentRoom ])
 

@@ -1,11 +1,12 @@
 import { observer } from 'mobx-react-lite';
 
+import './index.css';
 import { useStore } from '../../../../model';
 import Room from '../room';
 
 function RoomsList() {
     return (
-        <div className={ 'select-room__list' }>
+        <div className={ 'rooms__list' }>
             { renderRooms() }
         </div>
     )

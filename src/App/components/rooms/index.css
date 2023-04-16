@@ -1,4 +1,4 @@
-.select-room {
+.rooms {
     background-color: var(--primary-color);
     color: var(--primary-font-color);
 
@@ -9,28 +9,7 @@
     padding: 1em;
 }
 
-.select-room__label {
-
-}
-
-.select-room__input {
-    outline: none;
-}
-
-.select-room__button {
-    align-self: flex-end;
-}
-
-.select-room__room {
-    padding: .3em;
-    border: 1px solid var(--secondary-color)
-}
-
-.select-room__room:hover {
-    background-color: var(--secondary-color);
-    cursor: pointer;
-}
-
-.select-room__room_active {
-    background-color: var(--secondary-color);
+.rooms__username {
+    padding-bottom: 1em;
+    border-bottom: 1px solid var(--primary-font-color);
 }

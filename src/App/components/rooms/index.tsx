@@ -1,18 +1,24 @@
+import { observer } from 'mobx-react-lite';
+
 import './index.css';
-import InputName from './ui/input-name';
-import CreateRoom from './ui/create-room';
+import { useStore } from '../../model';
 import List from './ui/list';
 
 function Rooms() {
+    const { rooms } = useStore();
+
     return (
-        <div className={ 'select-room' }>
-            <InputName />
-            <hr />
-            <CreateRoom />
-            <hr />
+        <div className={ 'rooms' }>
+            <div className={ 'username rooms__username' }>
+                <span className={ 'username__name' }>
+                    { 'criempiee' }
+                </span>
+                <button className={ 'button username__button' }>logout</button>
+            </div>
+
             <List />
         </div>
     )
 }
 
-export default Rooms;
+export default observer(Rooms);
