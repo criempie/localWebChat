@@ -14,9 +14,9 @@ function App() {
 }
 
 function render() {
-    const { rooms } = useStore();
+    const { user } = useStore();
 
-    if (rooms.userName) return <LoginPage />
+    if (!user.name) return <LoginPage />
     else return <HomePage />
 }
 

@@ -1,14 +1,23 @@
 import './index.css';
+import { observer } from 'mobx-react-lite';
+import { useStore } from '../../model';
 import Messages from '../messages';
 import Rooms from '../rooms';
+import RoomPlug from './ui/room-plug';
 
 function HomePage() {
+    const { rooms } = useStore();
+
     return (
         <div className={ 'home-page' }>
             <Rooms />
-            <Messages />
+            {
+                rooms.currentRoom
+                    ? <Messages />
+                    : <RoomPlug />
+            }
         </div>
     )
 }
 
-export default HomePage;
+export default observer(HomePage);

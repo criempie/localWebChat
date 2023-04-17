@@ -1,0 +1,10 @@
+.room-plug {
+    display: flex;
+
+    background-color: var(--secondary-color);
+    color: var(--primary-font-color);
+}
+
+.room-plug__text {
+    margin: auto;
+}

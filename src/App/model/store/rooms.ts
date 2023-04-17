@@ -1,13 +1,11 @@
 import { liveQuery, Subscription } from 'dexie';
-import { action, makeObservable, observable } from 'mobx';
+import { action, makeObservable, observable, runInAction } from 'mobx';
 
 import { messagesDB } from '../database';
-import { GUIError } from '../error';
 import { IRoom } from '../room';
 import RootStore from './index';
 
 class RoomsStore {
-    @observable userName: string = '';
     @observable currentRoom: Required<IRoom> | null = null;
     @observable rooms: Required<IRoom>[] = [];
 
@@ -18,7 +16,7 @@ class RoomsStore {
     }
 
     public async selectRoom(roomId: Required<IRoom>['id']) {
-        await this._setCurrentRoom(roomId);
+        return await this._setCurrentRoom(roomId);
     }
 
     public createRoom(name: string) {
@@ -27,6 +25,11 @@ class RoomsStore {
                   .then((id) => {
                       this._setCurrentRoom(Number(id));
                   });
+    }
+
+    @action
+    public clearCurrentRoom() {
+        this.currentRoom = null;
     }
 
     public init() {
@@ -40,29 +43,15 @@ class RoomsStore {
         })
     }
 
-    public setName(name?: string) {
-        const minLength = 3;
-
-        if (!name || name.length < minLength) throw new GUIError(`Длина имени должна быть больше ${ minLength }`);
-
-        this._setUserName(name);
-    }
-
-    @action
-    private _setUserName(name: string) {
-        this.userName = name;
-    }
-
     @action
     private _setRooms(rooms: Required<IRoom>[]) {
         this.rooms = rooms;
     }
 
-    @action
     private async _setCurrentRoom(roomId: Required<IRoom>['id']) {
         const room = await this._getRoomFromDB(roomId);
 
-        if (room) this.currentRoom = room
+        if (room) runInAction(() => this.currentRoom = room)
     }
 
     private async _getRoomFromDB(id: Required<IRoom>['id']) {

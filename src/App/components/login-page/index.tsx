@@ -8,11 +8,11 @@ import { GUIError } from '../../model/error';
 function LoginPage() {
     const [ error, setError ] = useState('');
     const inputRef = useRef<HTMLInputElement>(null);
-    const { rooms } = useStore();
+    const { user } = useStore();
 
     const submitName = () => {
         try {
-            rooms.setName(inputRef.current?.value);
+            user.setName(inputRef.current?.value);
         } catch (e) {
             if (e instanceof GUIError) {
                 setError(e.message);
@@ -34,7 +34,7 @@ function LoginPage() {
                     </label>
 
                     <div className={ 'login-page__description' }>
-                        <span className={'error login-page__error'}>{ error }</span>
+                        <span className={ 'error login-page__error' }>{ error }</span>
                         <button className={ 'button' } onClick={ submitName }>login</button>
                     </div>
                 </div>

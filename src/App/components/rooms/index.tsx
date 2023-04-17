@@ -5,15 +5,21 @@ import { useStore } from '../../model';
 import List from './ui/list';
 
 function Rooms() {
-    const { rooms } = useStore();
+    const { user } = useStore();
+
+    const logout = () => {
+        user.logout();
+    }
 
     return (
         <div className={ 'rooms' }>
             <div className={ 'username rooms__username' }>
                 <span className={ 'username__name' }>
-                    { 'criempiee' }
+                    { user.name }
                 </span>
-                <button className={ 'button username__button' }>logout</button>
+                <button className={ 'button username__button' } onClick={ logout }>
+                    logout
+                </button>
             </div>
 
             <List />
