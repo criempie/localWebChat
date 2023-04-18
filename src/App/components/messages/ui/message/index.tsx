@@ -3,7 +3,9 @@ import { useMemo } from 'react';
 import { IMessage } from '../../../../model';
 import * as Icon from '../../../icon';
 
-type Props = Pick<IMessage, 'body' | 'user' | 'timestamp'>;
+type Props = Pick<IMessage, 'body' | 'user' | 'timestamp' | 'id'> & {
+    deleteMessage: (messageId: IMessage['id']) => void;
+};
 
 function Message(props: Props) {
     const dateFormat = useMemo(() => {
@@ -11,13 +13,22 @@ function Message(props: Props) {
         return date.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' })
     }, [ props.timestamp ])
 
+    const deleteMessage = () => {
+        props.deleteMessage(props.id);
+    }
+
     return (
         <div className={ 'message' }>
             <div className={ 'message__avatar' }>
                 <Icon.Avatar width={ 24 } height={ 24 } />
             </div>
             <div className={ 'message__body' }>
-                <div className={ 'message__username' }>{ props.user.name }</div>
+                <div className={ 'header message__header' }>
+                    <div className={ 'message__username' }>{ props.user.name }</div>
+                    <Icon.Cross width={ 16 } height={ 16 }
+                                className={ 'message__cross' }
+                                onClick={ deleteMessage } />
+                </div>
                 <div className={ 'message__text' }>{ props.body }</div>
                 <div className={ 'message__date' }>{ dateFormat }</div>
             </div>

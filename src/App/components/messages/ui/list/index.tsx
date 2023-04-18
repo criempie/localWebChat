@@ -1,7 +1,8 @@
 import { observer } from 'mobx-react-lite';
 
 import './index.css';
-import { useStore } from '../../../../model';
+import { useCallback } from 'react';
+import { IMessage, useStore } from '../../../../model';
 import DateSeparator from '../date-separator';
 import Message from '../message';
 
@@ -19,6 +20,12 @@ function renderMessages() {
     const result = [];
     let lastDate: Date | undefined;
 
+    const deleteMessage = useCallback((messageId: IMessage['id']) => {
+        if (messageId) {
+            return messages.deleteMessage(messageId);
+        }
+    }, [])
+
     for (const msg of messages.messages) {
         const date = new Date(msg.timestamp);
         date.setHours(0, 0, 0, 0);
@@ -28,7 +35,7 @@ function renderMessages() {
             lastDate = date;
         }
 
-        result.push(<Message { ...msg } key={ msg.id } />)
+        result.push(<Message { ...msg } deleteMessage={ deleteMessage } key={ msg.id } />)
     }
 
     return result;

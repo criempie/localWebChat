@@ -85,3 +85,9 @@ html, body {
 .username__button {
     margin-left: auto;
 }
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}

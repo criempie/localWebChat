@@ -34,6 +34,7 @@
 
 .message__username {
     font-weight: bold;
+    line-height: 1em;
 }
 
 .message__text {
@@ -43,4 +44,21 @@
 .message__date {
     font-size: .8em;
     text-align: end;
+}
+
+.message__cross {
+    cursor: pointer;
+    opacity: .3;
+}
+
+.message__cross:hover {
+    opacity: .8;
+}
+
+.message__cross > path {
+    stroke: var(--primary-font-color);
+}
+
+.message__header {
+    gap: 1em;
 }

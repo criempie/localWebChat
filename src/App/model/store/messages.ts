@@ -35,6 +35,10 @@ class MessagesStore {
         );
     }
 
+    public async deleteMessage(messageId: Required<IMessage>['id']) {
+        return await messagesDB.messages.delete(messageId);
+    }
+
     @action
     private _setMessages(messages: IMessage[]) {
         this.messages = messages;
