@@ -3,6 +3,7 @@ import { observer } from 'mobx-react-lite';
 import './index.css';
 import { useStore } from '../../model';
 import List from './ui/list';
+import RoomCreate from './ui/room-create';
 
 function Rooms() {
     const { user } = useStore();
@@ -21,6 +22,8 @@ function Rooms() {
                     logout
                 </button>
             </div>
+
+            <RoomCreate />
 
             <List />
         </div>

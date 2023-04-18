@@ -19,12 +19,12 @@ class RoomsStore {
         return await this._setCurrentRoom(roomId);
     }
 
-    public createRoom(name: string) {
-        messagesDB.rooms
-                  .add({ name })
-                  .then((id) => {
-                      this._setCurrentRoom(Number(id));
-                  });
+    public async createRoom(name: string) {
+        return await messagesDB.rooms
+                               .add({ name })
+                               .then((id) => {
+                                   this._setCurrentRoom(Number(id));
+                               });
     }
 
     @action

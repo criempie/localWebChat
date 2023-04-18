@@ -57,6 +57,10 @@ html, body {
     outline: none;
 }
 
+.input__button {
+
+}
+
 .button {
     padding: .1em .6em;
     font-size: .8em;
