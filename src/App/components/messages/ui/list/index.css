@@ -1,4 +1,4 @@
-.chat__messages-list {
+.messages {
     display: flex;
     flex-direction: column;
     gap: .3em;

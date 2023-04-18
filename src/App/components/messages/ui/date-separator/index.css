@@ -1,0 +1,14 @@
+.date-separator {
+    width: 100%;
+
+    text-align: center;
+    padding-bottom: 1em;
+}
+
+.date-separator__text {
+    padding: .3em .5em;
+    border-radius: 7px;
+    opacity: .7;
+
+    background-color: var(--primary-color);
+}

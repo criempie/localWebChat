@@ -1,10 +1,10 @@
-.chat__message {
+.message {
     display: flex;
     align-items: center;
     gap: 1em;
 }
 
-.chat__message-body {
+.message__body {
     display: inline-block;
     padding: .3em .7em;
     white-space: pre-line;
@@ -16,7 +16,7 @@
     word-break: break-all;
 }
 
-.chat__message-avatar {
+.message__avatar {
     display: inline-block;
     align-self: flex-start;
     width: 24px;
@@ -28,6 +28,19 @@
     border-radius: 120px;
 }
 
-.chat__message-avatar > svg > path {
+.message__avatar > svg > path {
     fill: var(--primary-font-color);
+}
+
+.message__username {
+    font-weight: bold;
+}
+
+.message__text {
+    padding: .5em 0;
+}
+
+.message__date {
+    font-size: .8em;
+    text-align: end;
 }
