@@ -17,12 +17,22 @@ class MessagesStore {
     public init() {
         reaction(
             () => this._root.rooms.currentRoom,
-            () => this._onChangeRoom.bind(this)
+            this._onChangeRoom.bind(this)
         )
     }
 
-    public addMessage(message: Omit<IMessage, 'id'>) {
-        messagesDB.messages.add(message);
+    public async createMessage(message: Pick<IMessage, 'body'>) {
+        if (!this._root.rooms.currentRoom) return;
+        if (!this._root.user.name) return;
+
+        return await messagesDB.messages.add(
+            {
+                ...message,
+                roomId: this._root.rooms.currentRoom.id,
+                user: { name: this._root.user.name },
+                timestamp: Date.now(),
+            }
+        );
     }
 
     @action
@@ -33,7 +43,7 @@ class MessagesStore {
     private _subscribeToDBChanges() {
         const messagesObserver = liveQuery(() => {
             return messagesDB.messages
-                             .where({ roomId: this._root.rooms.currentRoom })
+                             .where({ roomId: this._root.rooms.currentRoom?.id })
                              .toArray()
         })
 

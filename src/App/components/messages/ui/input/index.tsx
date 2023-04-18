@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useRef, KeyboardEvent as KeyboardEvent_React } from 'react';
 
 import './index.css';
 import { useStore } from '../../../../model';
@@ -8,8 +8,29 @@ function MessageInput() {
     const inputRef = useRef<HTMLTextAreaElement>(null);
     const { messages } = useStore();
 
+    const clearInput = () => {
+        if (inputRef.current) {
+            inputRef.current.value = '';
+        }
+    }
+
     const submit = () => {
-        // messages.addMessage({ body: inputRef.current?.value || '' });
+        if (!inputRef.current?.value) return;
+
+        messages.createMessage({ body: inputRef.current.value })
+                .then(clearInput)
+    }
+
+    const keyPressHandle = (event: KeyboardEvent_React<HTMLTextAreaElement>) => {
+        switch (event.key) {
+            case 'Enter': {
+                if (event.ctrlKey) {
+                    if (inputRef.current) inputRef.current.value += '\n';
+                } else {
+                    submit()
+                }
+            }
+        }
     }
 
     return (
@@ -17,6 +38,7 @@ function MessageInput() {
             <label className={ 'message-input__container' }>
                 <textarea className={ 'message-input__input' }
                           ref={ inputRef }
+                          onKeyDown={ keyPressHandle }
                           placeholder={ 'Введите сообщение...' }
                           rows={ 1 } />
             </label>

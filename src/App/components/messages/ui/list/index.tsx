@@ -15,7 +15,6 @@ function List() {
 
 function renderMessages() {
     const { messages } = useStore();
-
     return messages.messages.map((msg) => <Message { ...msg } key={ msg.id } />)
 }
 

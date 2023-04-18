@@ -10,8 +10,8 @@ class MessagesDatabase extends Dexie {
 
     constructor() {
         super(`${ dbBaseName }_messages`);
-        this.version(1).stores({
-            messages: '&++id, body, *roomId',
+        this.version(2).stores({
+            messages: '&++id, body, *roomId, user, timestamp',
             rooms: '&++id, name'
         });
     }
