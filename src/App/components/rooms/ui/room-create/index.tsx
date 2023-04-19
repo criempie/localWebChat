@@ -15,7 +15,7 @@ function RoomCreate() {
     }
 
     const createRoom = () => {
-        if (inputRef.current) {
+        if (inputRef.current && inputRef.current.value) {
             rooms.createRoom(inputRef.current.value)
                  .then(clearInput);
         }

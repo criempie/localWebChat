@@ -15,7 +15,7 @@ function MessageInput() {
     }
 
     const submit = () => {
-        if (!inputRef.current?.value) return;
+        if (!inputRef.current?.value || !inputRef.current.value.trim()) return;
 
         messages.createMessage({ body: inputRef.current.value })
                 .then(clearInput)
@@ -27,6 +27,7 @@ function MessageInput() {
                 if (event.ctrlKey) {
                     if (inputRef.current) inputRef.current.value += '\n';
                 } else {
+                    event.preventDefault();
                     submit()
                 }
             }
