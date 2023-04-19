@@ -3,6 +3,7 @@ import { action, makeObservable, observable, reaction } from 'mobx';
 
 import { messagesDB } from '../database';
 import { IMessage } from '../message';
+import { IRoom } from '../room';
 import RootStore from './index';
 
 class MessagesStore {
@@ -25,7 +26,7 @@ class MessagesStore {
         if (!this._root.rooms.currentRoom) return;
         if (!this._root.user.name) return;
 
-        return await messagesDB.messages.add(
+        return messagesDB.messages.add(
             {
                 ...message,
                 roomId: this._root.rooms.currentRoom.id,
@@ -35,8 +36,16 @@ class MessagesStore {
         );
     }
 
+    public async getMessagesFromRoom(roomId: Required<IRoom>['id']) {
+        return messagesDB.messages.where({ roomId }).toArray();
+    }
+
+    public async deleteMultipleMessages(ids: Required<IMessage>['id'][]) {
+        return messagesDB.messages.bulkDelete(ids);
+    }
+
     public async deleteMessage(messageId: Required<IMessage>['id']) {
-        return await messagesDB.messages.delete(messageId);
+        return messagesDB.messages.delete(messageId);
     }
 
     @action
@@ -46,9 +55,9 @@ class MessagesStore {
 
     private _subscribeToDBChanges() {
         const messagesObserver = liveQuery(() => {
-            return messagesDB.messages
-                             .where({ roomId: this._root.rooms.currentRoom?.id })
-                             .toArray()
+            if (this._root.rooms.currentRoom) {
+                return this.getMessagesFromRoom(this._root.rooms.currentRoom?.id)
+            } else return [];
         })
 
         this._messagesSubscription = messagesObserver.subscribe({

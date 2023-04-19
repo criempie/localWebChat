@@ -2,6 +2,7 @@ import { liveQuery, Subscription } from 'dexie';
 import { action, makeObservable, observable, runInAction } from 'mobx';
 
 import { messagesDB } from '../database';
+import { IMessage } from '../message';
 import { IRoom } from '../room';
 import RootStore from './index';
 
@@ -16,15 +17,28 @@ class RoomsStore {
     }
 
     public async selectRoom(roomId: Required<IRoom>['id']) {
-        return await this._setCurrentRoom(roomId);
+        return this._setCurrentRoom(roomId);
+    }
+
+    public async deleteRoom(id: Required<IRoom>['id']) {
+        return messagesDB.rooms.delete(id)
+                         .then(() => this._root.messages.getMessagesFromRoom(id))
+                         .then((messages) => {
+                             const ids = messages.reduce((acc, msg) => {
+                                 if (msg.id) return [ ...acc, msg.id ];
+                                 else return acc;
+                             }, [] as Required<IMessage>['id'][]);
+
+                             this._root.messages.deleteMultipleMessages(ids)
+                         });
     }
 
     public async createRoom(name: string) {
-        return await messagesDB.rooms
-                               .add({ name })
-                               .then((id) => {
-                                   this._setCurrentRoom(Number(id));
-                               });
+        return messagesDB.rooms
+                         .add({ name })
+                         .then((id) => {
+                             this._setCurrentRoom(Number(id));
+                         });
     }
 
     @action

@@ -1,12 +1,33 @@
-.rooms__room {
-    padding: .3em;
+.room {
+    display: grid;
+    grid-template-columns: 1fr auto;
 }
 
-.rooms__room:hover {
+.room__name {
+    display: flex;
+    align-items: center;
+    padding: 0 .5em;
+}
+
+.room__name:hover {
     background-color: var(--secondary-color);
     cursor: pointer;
 }
 
-.rooms__room_active {
+.room__name_active {
+    background-color: var(--secondary-color);
+}
+
+.room__button {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.room__button > svg > path {
+    stroke: var(--primary-font-color);
+}
+
+.room__button:hover {
     background-color: var(--secondary-color);
 }
