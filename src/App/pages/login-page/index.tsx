@@ -2,8 +2,8 @@ import { observer } from 'mobx-react-lite';
 import { useRef, useState } from 'react';
 
 import './index.css';
-import { useStore } from '../../model';
-import { GUIError } from '../../model/error';
+import { GUIError } from '~/App/entities/error';
+import { useStore } from '~/App/model';
 
 function LoginPage() {
     const [ error, setError ] = useState('');
@@ -18,7 +18,7 @@ function LoginPage() {
                 setError(e.message);
             }
         }
-    }
+    };
 
     return (
         <div className={ 'login-page' }>
@@ -40,7 +40,7 @@ function LoginPage() {
                 </div>
             </div>
         </div>
-    )
+    );
 }
 
 export default observer(LoginPage);

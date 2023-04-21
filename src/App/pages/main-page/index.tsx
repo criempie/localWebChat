@@ -1,11 +1,12 @@
-import './index.css';
 import { observer } from 'mobx-react-lite';
-import { useStore } from '../../model';
-import Messages from '../messages';
-import Rooms from '../rooms';
-import RoomPlug from './ui/room-plug';
 
-function HomePage() {
+import './index.css';
+import RoomPlug from './ui/room-plug';
+import { useStore } from '~/App/model';
+import Messages from '~/App/components/messages';
+import Rooms from '~/App/components/rooms';
+
+function MainPage() {
     const { rooms } = useStore();
 
     return (
@@ -17,7 +18,7 @@ function HomePage() {
                     : <RoomPlug />
             }
         </div>
-    )
+    );
 }
 
-export default observer(HomePage);
+export default observer(MainPage);

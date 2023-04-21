@@ -1,10 +1,10 @@
 import { liveQuery, Subscription } from 'dexie';
 import { action, makeObservable, observable, reaction } from 'mobx';
+import db from '~/App/entities/database';
 
-import { messagesDB } from '../database';
-import { IMessage } from '../message';
-import { IRoom } from '../room';
-import RootStore from './index';
+import { IMessage } from '~/App/entities/message';
+import { IRoom } from '~/App/entities/room';
+import { RootStore } from '~/App/model';
 
 class MessagesStore {
     @observable public messages: IMessage[] = [];
@@ -19,14 +19,14 @@ class MessagesStore {
         reaction(
             () => this._root.rooms.currentRoom,
             this._onChangeRoom.bind(this)
-        )
+        );
     }
 
     public async createMessage(message: Pick<IMessage, 'body'>) {
         if (!this._root.rooms.currentRoom) return;
         if (!this._root.user.name) return;
 
-        return messagesDB.messages.add(
+        return db.messages.add(
             {
                 ...message,
                 roomId: this._root.rooms.currentRoom.id,
@@ -37,15 +37,15 @@ class MessagesStore {
     }
 
     public async getMessagesFromRoom(roomId: Required<IRoom>['id']) {
-        return messagesDB.messages.where({ roomId }).toArray();
+        return db.messages.where({ roomId }).toArray();
     }
 
     public async deleteMultipleMessages(ids: Required<IMessage>['id'][]) {
-        return messagesDB.messages.bulkDelete(ids);
+        return db.messages.bulkDelete(ids);
     }
 
     public async deleteMessage(messageId: Required<IMessage>['id']) {
-        return messagesDB.messages.delete(messageId);
+        return db.messages.delete(messageId);
     }
 
     @action
@@ -56,13 +56,13 @@ class MessagesStore {
     private _subscribeToDBChanges() {
         const messagesObserver = liveQuery(() => {
             if (this._root.rooms.currentRoom) {
-                return this.getMessagesFromRoom(this._root.rooms.currentRoom?.id)
+                return this.getMessagesFromRoom(this._root.rooms.currentRoom?.id);
             } else return [];
-        })
+        });
 
         this._messagesSubscription = messagesObserver.subscribe({
             next: this._setMessages.bind(this),
-        })
+        });
     }
 
     private _onChangeRoom() {

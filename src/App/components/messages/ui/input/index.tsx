@@ -1,8 +1,8 @@
 import { useRef, KeyboardEvent as KeyboardEvent_React } from 'react';
 
 import './index.css';
-import { useStore } from '../../../../model';
-import * as Icon from '../../../icon';
+import { useStore } from '~/App/model';
+import Icon from '~/App/ui/icon';
 
 function MessageInput() {
     const inputRef = useRef<HTMLTextAreaElement>(null);
@@ -12,14 +12,14 @@ function MessageInput() {
         if (inputRef.current) {
             inputRef.current.value = '';
         }
-    }
+    };
 
     const submit = () => {
         if (!inputRef.current?.value || !inputRef.current.value.trim()) return;
 
         messages.createMessage({ body: inputRef.current.value })
-                .then(clearInput)
-    }
+                .then(clearInput);
+    };
 
     const keyPressHandle = (event: KeyboardEvent_React<HTMLTextAreaElement>) => {
         switch (event.key) {
@@ -28,11 +28,11 @@ function MessageInput() {
                     if (inputRef.current) inputRef.current.value += '\n';
                 } else {
                     event.preventDefault();
-                    submit()
+                    submit();
                 }
             }
         }
-    }
+    };
 
     return (
         <div className={ 'message-input' }>
@@ -47,7 +47,7 @@ function MessageInput() {
                 <Icon.ArrowSend width={ 32 } height={ 32 } />
             </div>
         </div>
-    )
+    );
 }
 
 export default MessageInput;

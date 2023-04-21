@@ -1,3 +1,5 @@
-export { Avatar } from './components/avatar';
-export { ArrowSend } from './components/arrow';
-export { Cross } from './components/cross';
+import { Avatar } from './components/avatar';
+import { ArrowSend } from './components/arrow';
+import { Cross } from './components/cross';
+
+export default { Avatar, ArrowSend, Cross };

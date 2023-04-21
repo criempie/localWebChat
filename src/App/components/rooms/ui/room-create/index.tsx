@@ -2,7 +2,7 @@ import { observer } from 'mobx-react-lite';
 
 import './index.css';
 import { useRef } from 'react';
-import { useStore } from '../../../../model';
+import { useStore } from '~/App/model';
 
 function RoomCreate() {
     const inputRef = useRef<HTMLInputElement>(null);
@@ -12,14 +12,14 @@ function RoomCreate() {
         if (inputRef.current) {
             inputRef.current.value = '';
         }
-    }
+    };
 
     const createRoom = () => {
         if (inputRef.current && inputRef.current.value) {
             rooms.createRoom(inputRef.current.value)
                  .then(clearInput);
         }
-    }
+    };
 
     return (
         <div className={ 'room-create' }>
@@ -34,7 +34,7 @@ function RoomCreate() {
                 </button>
             </div>
         </div>
-    )
+    );
 }
 
 export default observer(RoomCreate);

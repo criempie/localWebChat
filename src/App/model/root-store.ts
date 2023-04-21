@@ -1,6 +1,6 @@
-import { MessagesStore } from './messages';
-import { RoomsStore } from './rooms';
-import { UserStore } from './user';
+import { MessagesStore } from '~/App/entities/message';
+import { RoomsStore } from '~/App/entities/room';
+import { UserStore } from '~/App/entities/user';
 
 class RootStore {
     public messages: MessagesStore;
@@ -18,4 +18,4 @@ class RootStore {
     }
 }
 
-export default RootStore
+export { RootStore };

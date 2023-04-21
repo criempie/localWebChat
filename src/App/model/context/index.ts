@@ -1,6 +1,6 @@
 import { createContext, useContext } from 'react';
-import RootStore from '../store';
 
+import { RootStore } from '~/App/model';
 import { IAppContext } from './types';
 
 const context = createContext<any>({

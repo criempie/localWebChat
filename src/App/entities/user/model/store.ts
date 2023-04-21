@@ -1,7 +1,7 @@
 import { action, makeObservable, observable } from 'mobx';
 
-import { GUIError } from '../error';
-import RootStore from './index';
+import { GUIError } from '~/App/entities/error';
+import { RootStore } from '~/App/model';
 
 class UserStore {
     @observable name: string | null = null;
@@ -21,7 +21,7 @@ class UserStore {
         const minLength = 3;
 
         if (!name || name.length < minLength) {
-            throw new GUIError(`Длина имени должна быть больше ${ minLength }`)
+            throw new GUIError(`Длина имени должна быть больше ${ minLength }`);
         }
 
         this._setName(name);

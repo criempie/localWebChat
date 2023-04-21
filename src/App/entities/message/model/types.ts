@@ -1,5 +1,5 @@
-import { IRoom } from '../room';
-import { IUser } from '../user';
+import { IRoom } from '~/App/entities/room';
+import { IUser } from '~/App/entities/user';
 
 export interface IMessage {
     id?: number;

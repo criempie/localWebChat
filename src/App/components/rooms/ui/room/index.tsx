@@ -2,14 +2,14 @@ import { observer } from 'mobx-react-lite';
 import { useMemo } from 'react';
 
 import './index.css';
-import * as Icon from '../../../icon';
-import { useStore } from '../../../../model';
-import { IRoom } from '../../../../model/room';
+import { IRoom } from '~/App/entities/room';
+import { useStore } from '~/App/model';
+import Icon from '~/App/ui/icon';
 
 type Props = Required<Pick<IRoom, 'id' | 'name'>>;
 
 function Room(props: Props) {
-    if (!props.id) return <></>
+    if (!props.id) return <></>;
 
     const { rooms } = useStore();
 
@@ -19,15 +19,15 @@ function Room(props: Props) {
 
         return defaultClass;
 
-    }, [ props.id, rooms.currentRoom ])
+    }, [ props.id, rooms.currentRoom ]);
 
     const clickHandler = () => {
         rooms.selectRoom(props.id);
-    }
+    };
 
     const deleteRoom = () => {
         rooms.deleteRoom(props.id);
-    }
+    };
 
     return (
         <div className={ 'room' }>
@@ -36,7 +36,7 @@ function Room(props: Props) {
                 <Icon.Cross width={ 24 } height={ 24 } />
             </div>
         </div>
-    )
+    );
 }
 
 export default observer(Room);

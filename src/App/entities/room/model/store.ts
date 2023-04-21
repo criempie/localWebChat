@@ -1,10 +1,10 @@
 import { liveQuery, Subscription } from 'dexie';
 import { action, makeObservable, observable, runInAction } from 'mobx';
 
-import { messagesDB } from '../database';
-import { IMessage } from '../message';
-import { IRoom } from '../room';
-import RootStore from './index';
+import db from '~/App/entities/database';
+import { IMessage } from '~/App/entities/message';
+import { IRoom } from '~/App/entities/room';
+import { RootStore } from '~/App/model';
 
 class RoomsStore {
     @observable currentRoom: Required<IRoom> | null = null;
@@ -21,24 +21,24 @@ class RoomsStore {
     }
 
     public async deleteRoom(id: Required<IRoom>['id']) {
-        return messagesDB.rooms.delete(id)
-                         .then(() => this._root.messages.getMessagesFromRoom(id))
-                         .then((messages) => {
-                             const ids = messages.reduce((acc, msg) => {
-                                 if (msg.id) return [ ...acc, msg.id ];
-                                 else return acc;
-                             }, [] as Required<IMessage>['id'][]);
+        return db.rooms.delete(id)
+                 .then(() => this._root.messages.getMessagesFromRoom(id))
+                 .then((messages) => {
+                     const ids = messages.reduce((acc, msg) => {
+                         if (msg.id) return [ ...acc, msg.id ];
+                         else return acc;
+                     }, [] as Required<IMessage>['id'][]);
 
-                             this._root.messages.deleteMultipleMessages(ids)
-                         });
+                     this._root.messages.deleteMultipleMessages(ids);
+                 });
     }
 
     public async createRoom(name: string) {
-        return messagesDB.rooms
-                         .add({ name })
-                         .then((id) => {
-                             this._setCurrentRoom(Number(id));
-                         });
+        return db.rooms
+                 .add({ name })
+                 .then((id) => {
+                     this._setCurrentRoom(Number(id));
+                 });
     }
 
     @action
@@ -47,14 +47,14 @@ class RoomsStore {
     }
 
     public init() {
-        messagesDB.rooms.toArray().then((rooms) => {
+        db.rooms.toArray().then((rooms) => {
             this._setRooms(this._convertType(rooms));
         });
 
-        const roomsObserver = liveQuery(() => messagesDB.rooms.toArray());
+        const roomsObserver = liveQuery(() => db.rooms.toArray());
         this._roomsSubscription = roomsObserver.subscribe({
             next: (rooms) => this._setRooms(this._convertType(rooms))
-        })
+        });
     }
 
     @action
@@ -65,11 +65,11 @@ class RoomsStore {
     private async _setCurrentRoom(roomId: Required<IRoom>['id']) {
         const room = await this._getRoomFromDB(roomId);
 
-        if (room) runInAction(() => this.currentRoom = room)
+        if (room) runInAction(() => this.currentRoom = room);
     }
 
     private async _getRoomFromDB(id: Required<IRoom>['id']) {
-        const room = await messagesDB.rooms.get(id) as Required<IRoom>;
+        const room = await db.rooms.get(id) as Required<IRoom>;
         return room;
     }
 

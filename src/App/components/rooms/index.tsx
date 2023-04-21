@@ -1,7 +1,7 @@
 import { observer } from 'mobx-react-lite';
 
 import './index.css';
-import { useStore } from '../../model';
+import { useStore } from '~/App/model';
 import List from './ui/list';
 import RoomCreate from './ui/room-create';
 
@@ -10,7 +10,7 @@ function Rooms() {
 
     const logout = () => {
         user.logout();
-    }
+    };
 
     return (
         <div className={ 'rooms' }>
@@ -27,7 +27,7 @@ function Rooms() {
 
             <List />
         </div>
-    )
+    );
 }
 
 export default observer(Rooms);

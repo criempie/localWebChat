@@ -1,7 +1,8 @@
-import './index.css';
 import { useMemo } from 'react';
-import { IMessage } from '../../../../model';
-import * as Icon from '../../../icon';
+
+import './index.css';
+import { IMessage } from '~/App/entities/message';
+import Icon from '~/App/ui/icon';
 
 type Props = Pick<IMessage, 'body' | 'user' | 'timestamp' | 'id'> & {
     deleteMessage: (messageId: IMessage['id']) => void;
@@ -10,12 +11,12 @@ type Props = Pick<IMessage, 'body' | 'user' | 'timestamp' | 'id'> & {
 function Message(props: Props) {
     const dateFormat = useMemo(() => {
         const date = new Date(props.timestamp);
-        return date.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' })
-    }, [ props.timestamp ])
+        return date.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' });
+    }, [ props.timestamp ]);
 
     const deleteMessage = () => {
         props.deleteMessage(props.id);
-    }
+    };
 
     return (
         <div className={ 'message' }>
@@ -33,7 +34,7 @@ function Message(props: Props) {
                 <div className={ 'message__date' }>{ dateFormat }</div>
             </div>
         </div>
-    )
+    );
 }
 
 export default Message;
