@@ -1,0 +1,14 @@
+.icon-button {
+    display: flex;
+    padding: .4em;
+
+    width: min-content;
+    height: min-content;
+
+    border-radius: 12px;
+    cursor: pointer;
+}
+
+.icon-button:hover {
+    background-color: var(--primary-font-color);
+}
