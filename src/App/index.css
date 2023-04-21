@@ -27,6 +27,10 @@ html, body {
     --error-font-color: #E63526;
 }
 
+.hidden {
+    display: none;
+}
+
 .container {
     height: 100%;
     width: fit-content;

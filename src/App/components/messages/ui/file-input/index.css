@@ -1,0 +1,5 @@
+.file-input {}
+
+.file-input__icon > path {
+    fill: none;
+}

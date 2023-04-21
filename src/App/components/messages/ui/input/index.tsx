@@ -1,8 +1,10 @@
 import { useRef, KeyboardEvent as KeyboardEvent_React } from 'react';
 
 import './index.css';
+import FileInput from '~/App/components/messages/ui/file-input';
 import { useStore } from '~/App/model';
 import Icon from '~/App/ui/icon';
+import IconButton from '~/App/ui/icon-button';
 
 function MessageInput() {
     const inputRef = useRef<HTMLTextAreaElement>(null);
@@ -43,9 +45,16 @@ function MessageInput() {
                           placeholder={ 'Введите сообщение...' }
                           rows={ 1 } />
             </label>
-            <div className={ 'message-input__button' } onClick={ submit }>
+
+            <FileInput />
+
+            <IconButton onClick={ submit }>
                 <Icon.ArrowSend width={ 32 } height={ 32 } />
-            </div>
+            </IconButton>
+
+            {/*<div className={ 'message-input__button' } onClick={ submit }>*/ }
+            {/*    */ }
+            {/*</div>*/ }
         </div>
     );
 }
