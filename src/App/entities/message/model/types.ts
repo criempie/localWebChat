@@ -8,5 +8,5 @@ export interface IMessage {
     user: IUser;
     timestamp: number;
     roomId: IRoom['id'];
-    attachments?: IFile['id'][];
+    attachments?: NonNullable<IFile['id']>[];
 }

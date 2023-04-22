@@ -32,6 +32,34 @@ class FileStore {
                  });
     }
 
+    public async getMultipleFiles(ids: NonNullable<IFile['id']>[]) {
+        const alreadyContainsFileIds: NonNullable<IFile['id']>[] = [];
+
+        const filesFromBuffer = this.files.reduce((acc: IFile[], file) => {
+            if (file.id && ids.includes(file.id)) {
+                alreadyContainsFileIds.push(file.id);
+
+                return [ ...acc, file ];
+            } else {
+                return acc;
+            }
+        }, []);
+
+        const remainIds = ids.slice();
+        for (let i = remainIds.length - 1; i >= 0; i--) {
+            if (alreadyContainsFileIds.includes(remainIds[i])) {
+                remainIds.splice(i, 1);
+            }
+        }
+
+        return this._getMultipleFilesFromDB(remainIds)
+                   .then((files) => {
+                       const _files = files.filter((file): file is IFile => !!file);
+
+                       return [ ..._files, ...filesFromBuffer ];
+                   });
+    }
+
     public async getFile(id: NonNullable<IFile['id']>) {
         const file = this.files.find((file) => file.id === id);
 

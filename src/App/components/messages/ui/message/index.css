@@ -2,6 +2,7 @@
     display: flex;
     align-items: center;
     gap: 1em;
+    padding-bottom: 1em;
 }
 
 .message__body {
@@ -61,4 +62,8 @@
 
 .message__header {
     gap: 1em;
+}
+
+.message__image-gallery:not(:empty) {
+    padding: .5em 0 1em;
 }
