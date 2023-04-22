@@ -15,9 +15,15 @@ function FileList(props: Props, ref: ForwardedRef<IFileListFunctions>) {
         setFiles((prev) => [ ...prev, ...filesWithIDs ]);
     }, []);
 
+    const clear = useCallback(() => {
+        setFiles([]);
+    }, []);
+
     useImperativeHandle(ref, () => ({
-        addFiles
-    }), [ addFiles ]);
+        addFiles,
+        files,
+        clear,
+    }), [ files, clear, addFiles ]);
 
     const removeFile = useCallback((fileId: number) => {
         setFiles((prev) => prev.filter((f) => f.id !== fileId));

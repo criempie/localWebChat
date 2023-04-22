@@ -1,7 +1,8 @@
 import { liveQuery, Subscription } from 'dexie';
 import { action, makeObservable, observable, reaction } from 'mobx';
-import db from '~/App/entities/database';
 
+import db from '~/App/entities/database';
+import { IFile } from '~/App/entities/files/model/types';
 import { IMessage } from '~/App/entities/message';
 import { IRoom } from '~/App/entities/room';
 import { RootStore } from '~/App/model';
@@ -22,7 +23,7 @@ class MessagesStore {
         );
     }
 
-    public async createMessage(message: Pick<IMessage, 'body'>) {
+    public async createMessage(message: Pick<IMessage, 'body'>, attachments?: NonNullable<IFile['id']>[]) {
         if (!this._root.rooms.currentRoom) return;
         if (!this._root.user.name) return;
 
@@ -32,6 +33,7 @@ class MessagesStore {
                 roomId: this._root.rooms.currentRoom.id,
                 user: { name: this._root.user.name },
                 timestamp: Date.now(),
+                attachments,
             }
         );
     }

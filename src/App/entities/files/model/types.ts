@@ -1,3 +1,4 @@
-export interface IFile extends File {
-    id: string;
+export interface IFile {
+    id?: number;
+    file: Blob;
 }

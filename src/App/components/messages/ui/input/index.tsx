@@ -3,6 +3,7 @@ import { KeyboardEvent as KeyboardEvent_React, useCallback, useRef } from 'react
 import { IFileListFunctions } from '~/App/components/messages/model';
 import FileInput from '~/App/components/messages/ui/file-input';
 import FileList from '~/App/components/messages/ui/file-list';
+import { IFile } from '~/App/entities/files';
 import { useStore } from '~/App/model';
 import Icon from '~/App/ui/icon';
 import IconButton from '~/App/ui/icon-button';
@@ -12,7 +13,7 @@ function MessageInput() {
     const inputRef = useRef<HTMLTextAreaElement>(null);
     const fileListRef = useRef<IFileListFunctions>(null);
 
-    const { messages } = useStore();
+    const { messages, files } = useStore();
 
     const clearInput = () => {
         if (inputRef.current) {
@@ -20,11 +21,18 @@ function MessageInput() {
         }
     };
 
-    const submit = () => {
+    const submit = async () => {
         if (!inputRef.current?.value || !inputRef.current.value.trim()) return;
 
-        messages.createMessage({ body: inputRef.current.value })
-                .then(clearInput);
+        let attachments: NonNullable<IFile['id']>[] | undefined;
+
+        if (fileListRef.current?.files) {
+            attachments = await files.saveMultipleFiles(fileListRef.current.files);
+        }
+
+        messages.createMessage({ body: inputRef.current.value }, attachments)
+                .then(clearInput)
+                .then(fileListRef.current?.clear);
     };
 
     const keyPressHandle = (event: KeyboardEvent_React<HTMLTextAreaElement>) => {
