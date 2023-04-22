@@ -1,13 +1,17 @@
-import { useRef, KeyboardEvent as KeyboardEvent_React } from 'react';
+import { KeyboardEvent as KeyboardEvent_React, useCallback, useRef } from 'react';
 
-import './index.css';
+import { IFileListFunctions } from '~/App/components/messages/model';
 import FileInput from '~/App/components/messages/ui/file-input';
+import FileList from '~/App/components/messages/ui/file-list';
 import { useStore } from '~/App/model';
 import Icon from '~/App/ui/icon';
 import IconButton from '~/App/ui/icon-button';
+import './index.css';
 
 function MessageInput() {
     const inputRef = useRef<HTMLTextAreaElement>(null);
+    const fileListRef = useRef<IFileListFunctions>(null);
+
     const { messages } = useStore();
 
     const clearInput = () => {
@@ -36,26 +40,35 @@ function MessageInput() {
         }
     };
 
+    const addFilesToList = useCallback((files: File[]) => {
+        if (!fileListRef.current) return;
+
+        fileListRef.current.addFiles(files);
+    }, []);
+
     return (
-        <div className={ 'message-input' }>
-            <label className={ 'message-input__container' }>
+        <>
+            <FileList ref={ fileListRef } />
+            <div className={ 'message-input' }>
+                <label className={ 'message-input__container' }>
                 <textarea className={ 'message-input__input' }
                           ref={ inputRef }
                           onKeyDown={ keyPressHandle }
                           placeholder={ 'Введите сообщение...' }
                           rows={ 1 } />
-            </label>
+                </label>
 
-            <FileInput />
+                <FileInput addFiles={ addFilesToList } />
 
-            <IconButton onClick={ submit }>
-                <Icon.ArrowSend width={ 32 } height={ 32 } />
-            </IconButton>
+                <IconButton onClick={ submit }>
+                    <Icon.ArrowSend width={ 32 } height={ 32 } />
+                </IconButton>
 
-            {/*<div className={ 'message-input__button' } onClick={ submit }>*/ }
-            {/*    */ }
-            {/*</div>*/ }
-        </div>
+                {/*<div className={ 'message-input__button' } onClick={ submit }>*/ }
+                {/*    */ }
+                {/*</div>*/ }
+            </div>
+        </>
     );
 }
 

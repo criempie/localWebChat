@@ -1,0 +1,28 @@
+.image-preview {
+    width: 72px;
+    position: relative;
+
+    cursor: pointer;
+}
+
+.image-preview__image {
+    width: 100%;
+    object-fit: cover;
+}
+
+.image-preview__name {
+    font-size: .8em;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    color: var(--primary-font-color);
+}
+
+.image-preview__cross {
+    position: absolute;
+    right: 0;
+}
+
+.image-preview__cross > path {
+    stroke: var(--primary-font-color);
+}
