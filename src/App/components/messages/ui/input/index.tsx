@@ -4,6 +4,7 @@ import { IFileListFunctions } from '~/App/components/messages/model';
 import FileInput from '~/App/components/messages/ui/file-input';
 import FileList from '~/App/components/messages/ui/file-list';
 import { IFile } from '~/App/entities/files';
+import { IAttachment } from '~/App/entities/message';
 import { useStore } from '~/App/model';
 import Icon from '~/App/ui/icon';
 import IconButton from '~/App/ui/icon-button';
@@ -24,10 +25,12 @@ function MessageInput() {
     const submit = async () => {
         if (!inputRef.current?.value || !inputRef.current.value.trim()) return;
 
-        let attachments: NonNullable<IFile['id']>[] | undefined;
+        let attachments: IAttachment<'image'>[] = [];
 
         if (fileListRef.current?.files) {
-            attachments = await files.saveMultipleFiles(fileListRef.current.files);
+            attachments = (await files.saveMultipleFiles(fileListRef.current.files)).map(
+                (fileID) => ({ type: 'image', fileID })
+            );
         }
 
         messages.createMessage({ body: inputRef.current.value }, attachments)

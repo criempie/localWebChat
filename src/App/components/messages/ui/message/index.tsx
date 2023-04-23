@@ -1,6 +1,8 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
+import { Footer } from '~/App/components/messages/ui/message/footer';
 import { IFile } from '~/App/entities/files';
-import { IMessage } from '~/App/entities/message';
+import { IAttachmentLoaded, IMessage } from '~/App/entities/message';
+import { filterImageAttachments, filterMessageAttachments } from '~/App/entities/message/lib';
 import { useStore } from '~/App/model';
 import Icon from '~/App/ui/icon';
 
@@ -14,13 +16,10 @@ type Props = Pick<IMessage, 'body' | 'user' | 'timestamp' | 'id' | 'attachments'
 };
 
 function Message(props: Props) {
-    const [ attachments, setAttachments ] = useState<IFile[]>([]);
-    const { files } = useStore();
+    const [ loadedImageAttachments, setLoadedImageAttachments ] = useState<IFile[]>([]);
+    const [ loadedMessageAttachment, setLoadedMessageAttachment ] = useState<IMessage | null>(null);
 
-    const dateFormat = useMemo(() => {
-        const date = new Date(props.timestamp);
-        return date.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' });
-    }, [ props.timestamp ]);
+    const { files, messages } = useStore();
 
     const deleteMessage = () => {
         props.deleteMessage(props.id);
@@ -28,8 +27,23 @@ function Message(props: Props) {
 
     useEffect(() => {
         if (props.attachments) {
-            files.getMultipleFiles(props.attachments)
-                 .then((files) => setAttachments(files));
+            const imageIDs = filterImageAttachments(props.attachments).map((img) => img.fileID);
+
+            if (imageIDs.length > 0) {
+                files.getMultipleFiles(imageIDs)
+                     .then((files) => {
+                         setLoadedImageAttachments(files);
+                     });
+            }
+
+            const messageID = filterMessageAttachments(props.attachments)?.messageID;
+
+            if (messageID) {
+                messages.getMessage(messageID)
+                        .then((msg) => {
+                            if (msg) setLoadedMessageAttachment(msg);
+                        });
+            }
         }
     }, [ props.attachments ]);
 
@@ -43,13 +57,12 @@ function Message(props: Props) {
 
                 <div className={ 'message__text' }>{ props.body }</div>
 
-                <Gallery attachments={ attachments } />
+                <Gallery attachments={ loadedImageAttachments } />
 
-                <div className={ 'message__date' }>{ dateFormat }</div>
+                <Footer timestamp={ props.timestamp } />
             </div>
         </div>
-    )
-        ;
+    );
 }
 
 export default Message;

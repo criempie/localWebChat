@@ -1,6 +1,7 @@
 import { action, makeObservable, observable } from 'mobx';
 
 import db from '~/App/entities/database';
+import { IAttachment } from '~/App/entities/message';
 import { RootStore } from '~/App/model';
 import { IFile } from './types';
 
@@ -13,7 +14,7 @@ class FileStore {
 
     public init() {}
 
-    public async deleteMultipleFiles(ids: IFile['id'][]) {
+    public async deleteMultipleFiles(ids: IAttachment<'image'>['fileID'][]) {
         const _notNullIDs = this._filterNotNullable(ids);
 
         return db.files.bulkDelete(_notNullIDs);

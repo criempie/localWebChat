@@ -67,3 +67,17 @@
 .message__image-gallery:not(:empty) {
     padding: .5em 0 1em;
 }
+
+.message__footer {
+    display: flex;
+    justify-content: space-between;
+}
+
+.message__quote-bubble {
+    cursor: pointer;
+}
+
+.message__quote-bubble > path {
+    stroke: var(--primary-font-color);
+    fill: var(--primary-font-color);
+}

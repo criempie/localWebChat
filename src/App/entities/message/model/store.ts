@@ -3,7 +3,8 @@ import { action, makeObservable, observable, reaction } from 'mobx';
 
 import db from '~/App/entities/database';
 import { IFile } from '~/App/entities/files/model/types';
-import { IMessage } from '~/App/entities/message';
+import { IAttachment, IMessage } from '~/App/entities/message';
+import { filterImageAttachments } from '~/App/entities/message/lib';
 import { IRoom } from '~/App/entities/room';
 import { RootStore } from '~/App/model';
 
@@ -23,7 +24,7 @@ class MessagesStore {
         );
     }
 
-    public async createMessage(message: Pick<IMessage, 'body'>, attachments?: NonNullable<IFile['id']>[]) {
+    public async createMessage(message: Pick<IMessage, 'body'>, attachments?: IAttachment[]) {
         if (!this._root.rooms.currentRoom) return;
         if (!this._root.user.name) return;
 
@@ -33,9 +34,13 @@ class MessagesStore {
                 roomId: this._root.rooms.currentRoom.id,
                 user: { name: this._root.user.name },
                 timestamp: Date.now(),
-                attachments,
+                attachments: attachments ?? [],
             }
         );
+    }
+
+    public async getMessage(id: NonNullable<IMessage['id']>) {
+        return db.messages.get(id);
     }
 
     public async getMessagesFromRoom(roomId: Required<IRoom>['id']) {
@@ -55,14 +60,16 @@ class MessagesStore {
         return db.messages.bulkDelete(ids);
     }
 
-    public async deleteMessage(messageId: Required<IMessage>['id']) {
-        const attachments = (await db.messages.get(messageId))?.attachments;
+    public async deleteMessage(id: Required<IMessage>['id']) {
+        const message = await this.getMessage(id);
 
-        if (attachments) {
-            await this._root.files.deleteMultipleFiles(attachments);
-        }
+        if (!message) return;
 
-        return db.messages.delete(messageId);
+        const attachments = filterImageAttachments(message.attachments).map((img) => img.fileID);
+
+        await this._root.files.deleteMultipleFiles(attachments);
+
+        return db.messages.delete(id);
     }
 
     @action
