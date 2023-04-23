@@ -43,10 +43,25 @@ class MessagesStore {
     }
 
     public async deleteMultipleMessages(ids: Required<IMessage>['id'][]) {
+        const attachments = (await db.messages.bulkGet(ids)).map((msg) => msg?.attachments)
+                                                            .filter(
+                                                                (att): att is NonNullable<IMessage['attachments']> => !!att);
+        const allAttachments = ([] as any).concat.apply([], attachments);
+
+        if (allAttachments.length > 0) {
+            this._root.files.deleteMultipleFiles(allAttachments);
+        }
+
         return db.messages.bulkDelete(ids);
     }
 
     public async deleteMessage(messageId: Required<IMessage>['id']) {
+        const attachments = (await db.messages.get(messageId))?.attachments;
+
+        if (attachments) {
+            await this._root.files.deleteMultipleFiles(attachments);
+        }
+
         return db.messages.delete(messageId);
     }
 

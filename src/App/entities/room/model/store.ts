@@ -30,6 +30,9 @@ class RoomsStore {
                      }, [] as Required<IMessage>['id'][]);
 
                      this._root.messages.deleteMultipleMessages(ids);
+                 })
+                 .then(() => {
+                     this.clearCurrentRoom();
                  });
     }
 

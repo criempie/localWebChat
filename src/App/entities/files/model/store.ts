@@ -13,6 +13,12 @@ class FileStore {
 
     public init() {}
 
+    public async deleteMultipleFiles(ids: IFile['id'][]) {
+        const _notNullIDs = this._filterNotNullable(ids);
+
+        return db.files.bulkDelete(_notNullIDs);
+    }
+
     public async saveMultipleFiles(files: File[] | FileList) {
         const _files: IFile[] = Array.from(files).map((file) => ({ file }));
 
@@ -54,7 +60,7 @@ class FileStore {
 
         return this._getMultipleFilesFromDB(remainIds)
                    .then((files) => {
-                       const _files = files.filter((file): file is IFile => !!file);
+                       const _files = this._filterNotNullable(files);
 
                        return [ ..._files, ...filesFromBuffer ];
                    });
@@ -70,6 +76,10 @@ class FileStore {
                      if (file) this._addFilesToBuffer(file);
                      return file;
                  });
+    }
+
+    private _filterNotNullable<T>(arr: Array<T>) {
+        return arr.filter((item): item is NonNullable<T> => !!item)
     }
 
     private async _getMultipleFilesFromDB(ids: NonNullable<IFile['id']>[]) {
