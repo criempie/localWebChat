@@ -7,4 +7,6 @@
     color: var(--primary-font-color);
 
     padding: 1em;
+
+    overflow-y: scroll;
 }
