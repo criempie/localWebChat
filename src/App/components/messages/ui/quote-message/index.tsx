@@ -1,4 +1,5 @@
 import { IMessage } from '~/App/entities/message';
+import './index.css';
 
 type Props = Pick<IMessage, 'user' | 'body'>;
 

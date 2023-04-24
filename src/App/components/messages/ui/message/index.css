@@ -81,3 +81,8 @@
     stroke: var(--primary-font-color);
     fill: var(--primary-font-color);
 }
+
+.message__quote {
+    padding-top: .5em;
+    padding-left: 1em;
+}

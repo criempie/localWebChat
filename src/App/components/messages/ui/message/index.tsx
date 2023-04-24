@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Footer } from '~/App/components/messages/ui/message/footer';
+import QuoteMessage from '~/App/components/messages/ui/quote-message';
 import { IFile } from '~/App/entities/files';
 import { IAttachmentLoaded, IMessage } from '~/App/entities/message';
 import { filterImageAttachments, filterMessageAttachments } from '~/App/entities/message/lib';
@@ -55,11 +56,21 @@ function Message(props: Props) {
             <div className={ 'message__body' }>
                 <Header username={ props.user.name } deleteMessage={ deleteMessage } />
 
+                {
+                    loadedMessageAttachment
+                        ? (
+                            <div className={ 'message__quote' }>
+                                <QuoteMessage body={ loadedMessageAttachment.body } user={ props.user } />
+                            </div>
+                        ) : null
+                }
+
+
                 <div className={ 'message__text' }>{ props.body }</div>
 
                 <Gallery attachments={ loadedImageAttachments } />
 
-                <Footer timestamp={ props.timestamp } />
+                <Footer timestamp={ props.timestamp } messageId={ props.id } />
             </div>
         </div>
     );

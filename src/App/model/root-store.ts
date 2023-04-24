@@ -22,4 +22,6 @@ class RootStore {
     }
 }
 
-export { RootStore };
+const rootStoreInstance = new RootStore();
+
+export { RootStore, rootStoreInstance };

@@ -1,8 +1,11 @@
+import { observer } from 'mobx-react-lite';
 import { KeyboardEvent as KeyboardEvent_React, useCallback, useRef } from 'react';
 
-import { IFileListFunctions } from '~/App/components/messages/model';
+import { IFileListFunctions, localStorage } from '~/App/components/messages/model';
 import FileInput from '~/App/components/messages/ui/file-input';
 import FileList from '~/App/components/messages/ui/file-list';
+import MessageToQuote from '~/App/components/messages/ui/message-to-quote';
+import QuoteMessage from '~/App/components/messages/ui/quote-message';
 import { IFile } from '~/App/entities/files';
 import { IAttachment } from '~/App/entities/message';
 import { useStore } from '~/App/model';
@@ -25,17 +28,22 @@ function MessageInput() {
     const submit = async () => {
         if (!inputRef.current?.value || !inputRef.current.value.trim()) return;
 
-        let attachments: IAttachment<'image'>[] = [];
+        let attachments: IAttachment[] = [];
 
         if (fileListRef.current?.files) {
-            attachments = (await files.saveMultipleFiles(fileListRef.current.files)).map(
-                (fileID) => ({ type: 'image', fileID })
-            );
+            const savedFiles = await files.saveMultipleFiles(fileListRef.current.files);
+
+            attachments = savedFiles.map((fileID) => ({ type: 'image', fileID }));
+        }
+
+        if (localStorage.attachedMessage) {
+            attachments.push({ type: 'message', messageID: localStorage.attachedMessage.id! });
         }
 
         messages.createMessage({ body: inputRef.current.value }, attachments)
                 .then(clearInput)
-                .then(fileListRef.current?.clear);
+                .then(fileListRef.current?.clear)
+                .then(() => localStorage.detachMessage());
     };
 
     const keyPressHandle = (event: KeyboardEvent_React<HTMLTextAreaElement>) => {
@@ -59,7 +67,13 @@ function MessageInput() {
 
     return (
         <>
-            <FileList ref={ fileListRef } />
+            {
+                localStorage.attachedMessage
+                    ? (
+                        <MessageToQuote />
+                    ) : null
+            }
+
             <div className={ 'message-input' }>
                 <label className={ 'message-input__container' }>
                 <textarea className={ 'message-input__input' }
@@ -75,12 +89,10 @@ function MessageInput() {
                     <Icon.ArrowSend width={ 32 } height={ 32 } />
                 </IconButton>
 
-                {/*<div className={ 'message-input__button' } onClick={ submit }>*/ }
-                {/*    */ }
-                {/*</div>*/ }
+                <FileList ref={ fileListRef } />
             </div>
         </>
     );
 }
 
-export default MessageInput;
+export default observer(MessageInput);

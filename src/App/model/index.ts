@@ -1,2 +1,2 @@
-export { RootStore } from './root-store';
+export { RootStore, rootStoreInstance } from './root-store';
 export * from './context';

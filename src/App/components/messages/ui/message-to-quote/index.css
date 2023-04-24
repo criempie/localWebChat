@@ -1,0 +1,20 @@
+.message-to-quote {
+    background-color: var(--secondary-color);
+    color: var(--primary-font-color);
+    padding: 1em;
+    border-top: 1px solid var(--primary-color);
+}
+
+.message-to-quote__username {
+    font-size: 1.2em;
+    width: fit-content;
+    border-bottom: 1px solid var(--primary-font-color);
+    padding-right: 1em;
+}
+
+.message-to-quote__body {
+    max-width: 30%;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}

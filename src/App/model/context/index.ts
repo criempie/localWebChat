@@ -1,10 +1,10 @@
 import { createContext, useContext } from 'react';
 
-import { RootStore } from '~/App/model';
+import { rootStoreInstance } from '../root-store';
 import { IAppContext } from './types';
 
 const context = createContext<any>({
-    rootStore: new RootStore(),
+    rootStore: rootStoreInstance,
 });
 
 const useAppContext = () => useContext<IAppContext>(context);
