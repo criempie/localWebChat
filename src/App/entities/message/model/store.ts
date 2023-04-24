@@ -48,13 +48,16 @@ class MessagesStore {
     }
 
     public async deleteMultipleMessages(ids: Required<IMessage>['id'][]) {
-        const attachments = (await db.messages.bulkGet(ids)).map((msg) => msg?.attachments)
-                                                            .filter(
-                                                                (att): att is NonNullable<IMessage['attachments']> => !!att);
-        const allAttachments = ([] as any).concat.apply([], attachments);
+        const messages = await db.messages.bulkGet(ids);
+        const attachments = messages.map((msg) => msg?.attachments)
+                                    .filter(
+                                        (att): att is NonNullable<IMessage['attachments']> => !!att);
 
-        if (allAttachments.length > 0) {
-            this._root.files.deleteMultipleFiles(allAttachments);
+        const allAttachments = ([] as IAttachment[]).concat.apply([], attachments);
+        const filesAttachments = filterImageAttachments(allAttachments).map((f) => f.fileID);
+
+        if (filesAttachments.length > 0) {
+            this._root.files.deleteMultipleFiles(filesAttachments);
         }
 
         return db.messages.bulkDelete(ids);
