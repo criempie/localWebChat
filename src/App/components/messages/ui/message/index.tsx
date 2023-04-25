@@ -49,7 +49,7 @@ function Message(props: Props) {
     }, [ props.attachments ]);
 
     return (
-        <div className={ 'message' }>
+        <div className={ 'message' } id={ `message_${ props.id }` }>
             <div className={ 'message__avatar' }>
                 <Icon.Avatar width={ 24 } height={ 24 } />
             </div>
@@ -60,7 +60,8 @@ function Message(props: Props) {
                     loadedMessageAttachment
                         ? (
                             <div className={ 'message__quote' }>
-                                <QuoteMessage body={ loadedMessageAttachment.body } user={ props.user } />
+                                <QuoteMessage body={ loadedMessageAttachment.body } user={ props.user }
+                                              id={ loadedMessageAttachment.id } />
                             </div>
                         ) : null
                 }
