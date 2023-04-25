@@ -6,7 +6,6 @@
 
 .image-gallery__item {
     height: 7em;
-    cursor: pointer;
     position: relative;
 }
 

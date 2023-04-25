@@ -1,5 +1,5 @@
 import { observer } from 'mobx-react-lite';
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useRef, useState } from 'react';
 
 import './index.css';
 import Icon from '~/App/ui/icon';
@@ -11,10 +11,16 @@ interface Props {
 
 function FileInput(props: Props) {
     const { addFiles } = props;
+    const inputRef = useRef<HTMLInputElement>(null);
 
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
         if (event.target.files) {
             addFiles(Array.from(event.target.files));
+
+            if (inputRef.current) {
+                inputRef.current.value = '';
+                console.log(123);
+            }
         }
     };
 
@@ -24,7 +30,7 @@ function FileInput(props: Props) {
                 <Icon.Upload className={ 'file-input__icon' } width={ 32 } height={ 32 } />
             </IconButton>
 
-            <input onChange={ handleChange } className={ 'hidden' } type={ 'file' } multiple />
+            <input onChange={ handleChange } className={ 'hidden' } type={ 'file' } ref={inputRef} multiple accept="image/*" />
         </label>
     );
 }
