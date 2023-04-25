@@ -3,6 +3,8 @@
     color: var(--primary-font-color);
     padding: 1em;
     border-top: 1px solid var(--primary-color);
+
+    overflow-x: auto;
 }
 
 .message-to-quote__username {
